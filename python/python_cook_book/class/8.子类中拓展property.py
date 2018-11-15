@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'xiaodong Guo'
 
-# 在子类中 拓展 父类中 property的功能
+# 在子类中 拓展 父类中 property 的功能
 
 
 class Person:

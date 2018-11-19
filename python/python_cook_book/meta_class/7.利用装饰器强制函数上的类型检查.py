@@ -34,7 +34,6 @@ def typeassert(*ty_args, **ty_kwargs):
         sig = signature(func)
         bound_types = sig.bind_partial(*ty_args, **ty_kwargs).arguments
 
-
         @wraps(func)
         def wrapper(*args, **kwargs):
             bound_values = sig.bind(*args, **kwargs)

@@ -151,3 +151,53 @@ Commands:
   update     安装三方库的最新版本.
 ```
 
+#### 一些使用过程的展示
+
+找到python解释器路径
+
+```
+pipenv --py
+```
+
+安装开发环境中使用的包
+
+```
+pipenv install pytest --dev
+```
+
+安装包：
+
+```
+$ pipenv install
+```
+
+显示依赖关系：
+
+```
+$ pipenv graph
+requests==2.18.4
+  - certifi [required: >=2017.4.17, installed: 2017.7.27.1]
+  - chardet [required: >=3.0.2,<3.1.0, installed: 3.0.4]
+  - idna [required: >=2.5,<2.7, installed: 2.6]
+  - urllib3 [required: <1.23,>=1.21.1, installed: 1.22]
+```
+
+生成lock文件:
+
+```
+$ pipenv lock
+```
+
+卸载所有的包：
+
+```
+$ pipenv uninstall --all
+```
+
+使用虚拟环境的shell。exit退出：
+
+```
+$ pipenv shell
+Loading .env environment variables…
+Launching subshell in virtual environment. Type 'exit' or 'Ctrl+D' to return.
+```

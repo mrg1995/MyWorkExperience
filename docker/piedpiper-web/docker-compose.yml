@@ -1,0 +1,65 @@
+version: '2'
+
+services:
+#  postgres:
+#    image: postgres:9.6
+  mysql:
+    container_name: mymysql
+#    ports:
+#      - "3306:3306"
+#    command: [
+#            '--character-set-server=utf8mb4',
+#            '--collation-server=utf8mb4_unicode_ci'
+#    ]
+#    environment:
+#      MYSQL_ROOT_PASSWORD: "123456"
+    restart: "no"
+    build: ./mysql/
+    volumes:
+      - /home/rock/Desktop/db/mysql/data
+    expose:
+      - 3306
+
+  redis:
+    restart: always
+    image: redis:latest
+#    ports:
+#      - "6379:6379"
+    volumes:
+      - /home/rock/Desktop/db/redis/data
+
+  web:
+    restart: always
+    environment:
+      - DJANGO_SECRET_KEY=local
+    image: web
+    build: ./
+    command: >
+      bash -c "python wait_for_mysql.py &&
+               ./manage.py migrate "
+
+    volumes:
+      - ./:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - redis
+    links:
+      - mysql
+      - redis
+
+ #   entrypoint: /code/entrypoint.sh -d mysql:3306 -c 'echo "start web service here"';
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    # nginx容器挂载在与web容器相同的容器卷上
+    volumes_from:
+      - web
+    links:
+        - web:web
+
+

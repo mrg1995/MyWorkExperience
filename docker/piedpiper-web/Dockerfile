@@ -3,7 +3,7 @@ ENV PYTHONUNBUFFERED 1
 
 
 # Allows docker to cache installed dependencies between builds
-COPY ./requirements.txt requirements.txt
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 
 # Adds our application code to the image
@@ -16,5 +16,6 @@ EXPOSE 8000
 #CMD ./manage.py migrate && \
 #    ./manage.py collectstatic --noinput && \
 #    newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - piedpiper.wsgi:application
-CMD ./manage.py collectstatic --noinput && \
-    newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - piedpiper.wsgi:application
+
+#CMD ./manage.py collectstatic --noinput && \
+#    newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - piedpiper.wsgi:application

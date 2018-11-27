@@ -4,8 +4,8 @@ import sys
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "piedpiper.config")
-    os.environ.setdefault("DJANGO_CONFIGURATION", "Local")
-    # os.environ.setdefault("DJANGO_CONFIGURATION", "Production")
+    # os.environ.setdefault("DJANGO_CONFIGURATION", "Local")
+    os.environ.setdefault("DJANGO_CONFIGURATION", "Production")
 
 
     try:

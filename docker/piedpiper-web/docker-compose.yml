@@ -4,7 +4,7 @@ services:
 #  postgres:
 #    image: postgres:9.6
   mysql:
-    container_name: mymysql
+#    container_name: mymysql
 #    ports:
 #      - "3306:3306"
 #    command: [
@@ -17,16 +17,29 @@ services:
     build: ./mysql/
     volumes:
       - /home/rock/Desktop/db/mysql/data
+
     expose:
       - 3306
 
   redis:
     restart: always
     image: redis:latest
-#    ports:
-#      - "6379:6379"
     volumes:
-      - /home/rock/Desktop/db/redis/data
+      - /home/rock/Desktop/db/redis
+
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+#    volumes_from:
+#      - web
+    volumes:
+      - ./static/:/static/
+    links:
+      - web
+
 
   web:
     restart: always
@@ -36,12 +49,13 @@ services:
     build: ./
     command: >
       bash -c "python wait_for_mysql.py &&
-               ./manage.py migrate "
-
+               ./manage.py migrate &&
+               ./manage.py collectstatic --noinput &&
+              newrelic-admin run-program gunicorn --bind 0.0.0.0:8000 --access-logfile - piedpiper.wsgi:application"
     volumes:
       - ./:/code
-    ports:
-      - "8000:8000"
+#    ports:
+#      - "8000:8000"
     depends_on:
       - mysql
       - redis
@@ -50,16 +64,7 @@ services:
       - redis
 
  #   entrypoint: /code/entrypoint.sh -d mysql:3306 -c 'echo "start web service here"';
+#
 
-  nginx:
-    restart: always
-    build: ./nginx/
-    ports:
-      - "80:80"
-    # nginx容器挂载在与web容器相同的容器卷上
-    volumes_from:
-      - web
-    links:
-        - web:web
 
 

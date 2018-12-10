@@ -4,6 +4,7 @@ from distutils.util import strtobool
 import dj_database_url
 from configurations import Configuration
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -65,8 +66,8 @@ class Common(Configuration):
 
     # General
     APPEND_SLASH = False
-    TIME_ZONE = 'UTC'
-    LANGUAGE_CODE = 'en-us'
+    TIME_ZONE = 'Asia/Shanghai'
+    LANGUAGE_CODE = 'zh-hans'
     # If you set this to False, Django will make some optimizations so as not
     # to load the internationalization machinery.
     USE_I18N = False
@@ -231,12 +232,17 @@ class Common(Configuration):
     # 设置 是否 启用 session
     REST_SESSION_LOGIN = True
 
-    # 设置 token 的过期时间 单位 s
-    TOKEN_EXPIRE_TIME = 30
+    # 将会话的engine 配置为基于 cookie的会话
+    # SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+    SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+    SESSION_COOKIE_HTTPONLY = True
 
     # 配置 session 过期时间
     # SESSION_SAVE_EVERY_REQUEST = True
-    SESSION_COOKIE_AGE = 60 * 60 * 8 + 30
+    SESSION_COOKIE_AGE = 30
+
+    # 设置 token 的过期时间 单位 s
+    TOKEN_EXPIRE_TIME = 30
 
     # Json Web Token 配置
     import datetime
